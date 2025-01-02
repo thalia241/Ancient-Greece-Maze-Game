@@ -36,8 +36,12 @@ def move(prompt, current_room):
 def pickup_item(inventory, current_room):
     if current_room in rooms and 'item' in rooms[current_room]:
         item = rooms[current_room]['item']
-        inventory.append(item)
-        print('You picked up the', item)
+        if isinstance(item, list):
+            inventory.extend(item)
+            print('You picked up:', ', '.join(item))
+        else:
+            inventory.append(item)
+            print('You picked up the', item)
         del rooms[current_room]['item']
     else:
         print('There is no item to pick up here.')
@@ -59,7 +63,7 @@ def main():
         current_status(current_room, inventory)
 
         if current_room == "Daedalus's Lair":
-            if inventory ==
+            if len(inventory) >= 6:
                 print("Congratulations! You have entered Daedalus's Lair and defeated the Minotaur!")
             else:
                 print("Oh no! You were slain by the Minotaur and lost the game!")
